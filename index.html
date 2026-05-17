@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💜 Para Você</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #0d0a1a;
+    font-family: 'Nunito', sans-serif;
+    color: #e2d6ff;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 30%, rgba(90,60,180,.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 70%, rgba(40,70,160,.15) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: .08; }
+    50%       { opacity: .5; }
+  }
+
+  .container {
+    position: relative; z-index: 10;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 2rem 1.4rem 5rem;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 2.8rem 0 1.4rem;
+    animation: fadeDown .7s ease both;
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .header-title {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    font-weight: 800;
+    color: #d4b8ff;
+  }
+  .header-sub {
+    margin-top: .5rem;
+    font-size: 1.05rem;
+    color: #8898cc;
+    font-weight: 400;
+  }
+  .header-hearts {
+    margin-top: .9rem;
+    font-size: 1.3rem;
+    letter-spacing: .3rem;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: .65; }
+    50%       { opacity: 1; }
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex; gap: .7rem;
+    margin: 1.6rem 0 0;
+    animation: fadeUp .6s .15s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .tab-btn {
+    flex: 1;
+    padding: .75rem 1rem;
+    border-radius: 14px;
+    border: 1.5px solid rgba(160,120,255,.2);
+    background: rgba(255,255,255,.04);
+    color: #9980cc;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    cursor: pointer;
+    transition: all .22s;
+  }
+  .tab-btn:hover { border-color: rgba(180,140,255,.4); color: #c4a8ff; }
+  .tab-btn.active {
+    background: rgba(120,80,200,.22);
+    border-color: rgba(180,140,255,.45);
+    color: #e0ccff;
+  }
+
+  /* Panels */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadeUp .4s ease both; }
+
+  /* Card */
+  .card {
+    margin-top: 1.4rem;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(160,120,255,.15);
+    border-radius: 22px;
+    padding: 2rem 1.6rem;
+  }
+
+  /* Saudade */
+  .saudade-emoji {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  .saudade-text {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #b0a0d8;
+    line-height: 1.75;
+    margin-bottom: 1.8rem;
+  }
+
+  /* Button */
+  .btn-wrap { text-align: center; }
+  .love-btn {
+    display: inline-block;
+    padding: 1rem 2.4rem;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, #7c4dd6 0%, #4a6dd6 100%);
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 22px rgba(100,70,210,.4);
+    transition: transform .18s, box-shadow .18s;
+    animation: btnPulse 2.8s ease-in-out infinite;
+  }
+  @keyframes btnPulse {
+    0%, 100% { box-shadow: 0 4px 22px rgba(100,70,210,.4); }
+    50%       { box-shadow: 0 6px 30px rgba(100,70,210,.65); }
+  }
+  .love-btn:hover { transform: translateY(-3px) scale(1.03); }
+  .love-btn:active { transform: scale(.97); }
+
+  /* Message */
+  .message-box { display: none; margin-top: 1.6rem; }
+  .message-box.show { display: block; animation: fadeUp .4s ease both; }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(160,120,255,.25), transparent);
+    margin-bottom: 1.6rem;
+  }
+
+  .message-card {
+    background: rgba(120,80,200,.12);
+    border: 1px solid rgba(160,120,255,.2);
+    border-radius: 18px;
+    padding: 1.6rem 1.4rem 1.2rem;
+    text-align: center;
+  }
+  .message-card .top-emoji { font-size: 1.8rem; margin-bottom: .8rem; }
+  .message-text {
+    font-size: clamp(1.15rem, 3.5vw, 1.35rem);
+    font-weight: 700;
+    color: #ecdeff;
+    line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+  .message-time {
+    font-size: .82rem;
+    color: #7a88b8;
+    font-weight: 500;
+  }
+
+  /* History */
+  .history-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #c4a8ff;
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+  .history-empty {
+    text-align: center;
+    color: #7a6aa0;
+    font-size: .95rem;
+    line-height: 1.7;
+    padding: 1.2rem 0;
+  }
+  .history-list {
+    display: flex; flex-direction: column; gap: .8rem;
+    max-height: 500px; overflow-y: auto;
+    padding-right: .2rem;
+  }
+  .history-list::-webkit-scrollbar { width: 3px; }
+  .history-list::-webkit-scrollbar-thumb { background: rgba(160,120,255,.3); border-radius: 4px; }
+
+  .history-item {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(140,100,220,.15);
+    border-radius: 14px;
+    padding: .95rem 1.1rem;
+  }
+  .history-item-msg {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ddd0ff;
+    line-height: 1.55;
+    margin-bottom: .35rem;
+  }
+  .history-item-time { font-size: .75rem; color: #6a7aa0; }
+
+  .clear-btn {
+    display: block; margin: 1.2rem auto 0;
+    padding: .42rem 1.1rem;
+    border-radius: 50px;
+    border: 1px solid rgba(220,100,100,.25);
+    background: transparent;
+    color: rgba(220,130,130,.65);
+    font-family: 'Nunito', sans-serif;
+    font-size: .8rem; font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .clear-btn:hover { border-color: rgba(220,100,100,.5); color: rgba(220,130,130,1); }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="header-title">Para você 💜</div>
+    <div class="header-sub">um cantinho só seu, meu amor</div>
+    <div class="header-hearts">💜 💙 💜</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="openTab('saudade')">💜 Saudade de mim?</button>
+    <button class="tab-btn" onclick="openTab('historico')">📖 Histórico</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-saudade">
+    <div class="card">
+      <div class="saudade-emoji">🥺</div>
+      <div class="saudade-text">
+        Oi meu amor...<br>
+        Tô aqui, pensando em você como sempre.<br>
+        Aperta o botão e receba um recadinho 💜
+      </div>
+      <div class="btn-wrap">
+        <button class="love-btn" onclick="showMessage()">
+          💜 aqui pra vc meu amor 💜
+        </button>
+      </div>
+
+      <div class="message-box" id="messageBox">
+        <div class="divider" style="margin-top:1.6rem;"></div>
+        <div class="message-card">
+          <div class="top-emoji">💌</div>
+          <div class="message-text" id="messageText"></div>
+          <div class="message-time" id="messageTime"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-historico">
+    <div class="card">
+      <div class="history-title">💌 Mensagens recebidas</div>
+      <div id="historyContainer"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const phrases = [
+  "posso bao esta ai com vc mas sempre vou te amar",
+  "Meu amor, sempre que estiver confusa lembre que eu te amo mt",
+  "Se vc esta feliz eu também estou pois vc é perfeita e merece tudo de bom",
+  "Vc sabe que eu quero casar com vc né?",
+  "Minha linda, é perfeita D+",
+  "Eu sempre voi te amar mais",
+  "Eu sou o AuthenticGames e vc minha lidia",
+  "Te amo muitoooo",
+  "Huuuu hihiii Michel jackson hihiiii",
+  "Meu amor, minha princesa vc é incrível",
+  "Sem que pensa em dessisti não desista eu estou torcendo por vc",
+  "Vc é muito importante pra mim",
+  "I love you for ever",
+  "Ohh meu amoorr meu tuti fruti meu docinho",
+  "Vc é so minha, SÓ minha vamo casar logo",
+  "Minha bb vou cuidar de vc sempre",
+  "Meu amor, você é o meu pensamento favorito de todos os dias",
+  "Não importa a distância, meu coração está sempre coladinho no seu",
+  "Como qie ta meu sogro e minha sogra bb?",
+  "Amo conversar com vc, vc é a melhor parte do meu dia",
+  "Vc é incrível, eu te amo",
+  "Quero acordar todos os dias sabendo que tenho você na minha vida",
+  "Eu sou o cara mais sortudo do mundo por ter essa princesa",
+  "Ei, minha linda, você não é o Michael Jackson, but you rock my world! Rusbé",
+  "Você é forte, inteligente e vai conquistar o mundo. E eu vou estar bem do seu lado",
+  "Seus sonhos são os meus sonhos agora, vamos realizar todos juntos",
+  "Já estou organizando a nossa rotina para quando a gente morar junto, viu",
+  "Nosso futuro vai ser a coisa mais linda desse mundo",
+  "você tem um jeito único que me prende desde o primeiro momento",
+  "fico contando as horas só pra poder conversar com você de novo",
+  "teu sorriso é a coisa mais bonita que eu já vi",
+  "você é aquela pessoa que eu quero do meu lado em todos os momentos",
+  "meu dia melhora 100% quando vejo uma mensagem sua",
+  "você tem uma energia que combina direitinho com a minha",
+  "acho que você nem imagina o efeito que tem sobre mim",
+  "você é o tipo de pessoa que a gente quer conhecer cada vez mais",
+  "teu jeito de falar comigo me deixa com um sorriso bobo na cara kkk",
+  "se a perfeição existisse ela teria exatamente a tua cara",
+  "você consegue me fazer bem mesmo estando longe",
+  "queria ter o poder de teletransporte só pra te ver agora",
+  "você é a pessoa mais interessante que eu já conheci",
+  "difícil focar nas minhas coisas quando você não sai da minha mente",
+  "você tem um charme que não dá para explicar em palavras",
+  "toda música romântica que toca me faz lembrar de você",
+  "você é a primeira coisa que eu penso quando acordo",
+  "queria te dar um abraço daqueles que fazem o mundo parar",
+  "você é o meu pensamento favorito do dia todo",
+  "a distância é só um detalhe perto do tamanho do meu carinho por você",
+  "queria que a nossa conversa por mensagem virasse um papo de horas pessoalmente",
+  "mesmo longe você consegue ser mais presente que muita gente",
+  "o ruim de falar com você é que a vontade de te ver só aumenta",
+  "queria poder te abraçar toda vez que você me conta como foi o teu dia",
+  "teu nome na minha tela sempre me traz uma sensação boa",
+  "não vejo a hora de o nosso abraço finalmente acontecer",
+  "a gente conversa por tela mas o meu sentimento por você é bem real",
+  "passar o dia conversando com você é a melhor parte da minha rotina",
+  "queria poder segurar a tua mão em vez de só digitar pra você",
+  "mesmo com os quilômetros entre nós eu só consigo querer você",
+  "toda vez que o celular vibra eu torço muito para ser você",
+  "queria que o tempo passasse mais rápido até o dia de te ver",
+  "você é a melhor companhia que eu poderia ter mesmo de longe",
+  "meu plano favorito virou passar a noite conversando com você",
+  "queria que você estivesse aqui do meu lado assistindo um filme agora",
+  "a distância só serve pra provar o quanto eu quero você por perto",
+  "você faz eu me sentir especial mesmo sem estar na minha frente",
+  "queria poder te ver sorrir de verdade e não só por foto",
+  "você é aquela pessoa que chegou do nada e virou meu tudo",
+  "acho que o destino acertou em cheio quando fez a gente se conhecer",
+  "gosto de imaginar como vai ser o nosso futuro daqui pra frente",
+  "você tem um lugar reservado nos meus melhores planos",
+  "queria que você soubesse o quanto a tua presença me faz bem",
+  "você me conquistou de um jeito que ninguém mais conseguiu",
+  "meu objetivo principal virou fazer você sorrir todos os dias",
+  "gosto de cada detalhe do teu jeito de ser",
+  "você é a calmaria que eu preciso nos meus dias mais cheios",
+  "queria poder dividir todos os meus momentos bons com você",
+  "você entrou na minha vida e mudou tudo para melhor",
+  "teu carinho é a melhor coisa que me aconteceu nos últimos tempos",
+  "você tem um coração lindo e isso me encanta demais",
+  "gosto de pensar que a gente ainda vai viver muita coisa legal",
+  "você é a pessoa certa no momento certo da minha vida",
+  "queria que você estivesse aqui pra gente dividir um fone de ouvido",
+  "você faz eu me sentir a pessoa mais sortuda desse mundo",
+  "gosto de como a gente se entende sem precisar de muito esforço",
+  "tentei focar nas minhas coisas hoje mas o pensamento em você foi maior",
+  "você tem um brilho no olhar que me chama atenção toda vez",
+  "queria te mandar um beijo de boa noite em vez de só escrever",
+  "você é a pessoa mais fofa e linda que eu já conheci",
+  "acho que a gente combina mais do que qualquer outro casal por aí",
+  "meu dia só fica completo depois que eu falo com você",
+  "você tem o poder de mudar o meu humor com uma única palavra",
+  "queria ser o motivo de um desses teus sorrisos sinceros",
+  "você é tudo o que eu sempre quis e nem sabia",
+  "gosto de conversar com você até o celular descarregar",
+  "você me faz querer ser uma pessoa melhor todos os dias",
+  "queria poder te proteger de qualquer coisa ruim que aconteça",
+  "você é a minha pessoa favorita no mundo inteiro",
+  "acho que o meu coração já escolheu você faz tempo",
+  "queria te dar um abraço bem apertado daqueles que curam qualquer dia ruim",
+  "você tem um espaço gigante no meu pensamento e no meu peito",
+  "você é o motivo de eu olhar pro celular e sorrir sozinho",
+  "queria que você soubesse o quanto você é importante para mim",
+  "você é o meu começo o meu meio e o meu fim favorito",
+  "Te amo muito mesmo muito muito",
+  "Eu te amo tanto meu amor"
+];
+
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem('loveHistory') || '[]'); }
+  catch { return []; }
+}
+function saveHistory(h) { localStorage.setItem('loveHistory', JSON.stringify(h)); }
+
+function formatDate(d) {
+  const pad = n => String(n).padStart(2,'0');
+  const days = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+  const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  return `${days[d.getDay()]}, ${pad(d.getDate())} de ${months[d.getMonth()]} de ${d.getFullYear()} às ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
+
+function showMessage() {
+  const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+  const now = new Date();
+  const dateStr = formatDate(now);
+  document.getElementById('messageText').textContent = phrase;
+  document.getElementById('messageTime').textContent = '📅 ' + dateStr;
+  document.getElementById('messageBox').classList.add('show');
+  const h = getHistory();
+  h.unshift({ msg: phrase, time: dateStr });
+  saveHistory(h);
+  setTimeout(() => document.getElementById('messageBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+}
+
+function openTab(name) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', ['saudade','historico'][i] === name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'historico') renderHistory();
+}
+
+function renderHistory() {
+  const h = getHistory();
+  const container = document.getElementById('historyContainer');
+  if (!h.length) {
+    container.innerHTML = '<div class="history-empty">💜 Nenhuma mensagem ainda...<br>Aperta o botão do amor primeiro! 🥺</div>';
+    return;
+  }
+  let html = '<div class="history-list">';
+  h.forEach(item => {
+    html += `<div class="history-item"><div class="history-item-msg">💜 ${item.msg}</div><div class="history-item-time">📅 ${item.time}</div></div>`;
+  });
+  html += '</div><button class="clear-btn" onclick="clearHistory()">🗑️ Limpar histórico</button>';
+  container.innerHTML = html;
+}
+
+function clearHistory() {
+  if (confirm('Tem certeza? Vai apagar tudo 🥺')) { saveHistory([]); renderHistory(); }
+}
+
+// Minimal stars — CSS only, no JS loop animation
+(function() {
+  const s = document.getElementById('stars');
+  for (let i = 0; i < 30; i++) {
+    const el = document.createElement('div');
+    el.className = 'star';
+    const size = .6 + Math.random() * 2;
+    el.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${3+Math.random()*4}s;animation-delay:${Math.random()*5}s;`;
+    s.appendChild(el);
+  }
+})();
+</script>
+</body>
+</html>
